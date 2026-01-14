@@ -69,7 +69,7 @@ let rec referenced_in =
   | N.Dup _ -> S.empty
   | N.Literal _ -> S.empty
   | N.If (n, e1, e2) -> S.add n (unions [referenced_in e1; referenced_in e2])
-  | N.Let (n, _, e, body) -> S.remove n (unions [referenced_in e; referenced_in body])
+  | N.Let (_, _, e, body) -> unions [referenced_in e; referenced_in body]
   | N.Apply (n, ns) -> S.of_list (n :: ns)
   | N.Case (_, n, branches) -> S.add n (unions (List.map (function (_, branch) -> referenced_in branch) branches))
 
